@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  app:
+    image: rails-workshop
+    container_name: rails-workshop
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/app
+      - gem_cache:/bundle
+    env_file: .env
+    environment:
+      RAILS_ENV: development
+
+  database:
+    image: postgres:12.1
+    container_name: rails-workshop-database
+    volumes:
+     - ./tmp/db:/var/lib/postgresql/data
+
+volumes:
+  gem_cache:
+  db_data:
